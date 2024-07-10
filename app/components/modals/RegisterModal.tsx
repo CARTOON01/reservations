@@ -11,6 +11,7 @@ import {
 } from 'react-hook-form';
 
 import useRegisterModal from "@/app/hooks/useRegisterModal";
+import useLoginModal from "@/app/hooks/useLoginModal";
 import Modal from "./Modal";
 import Heading from "../Heading";
 import Input from "../inputs/Input";
@@ -19,6 +20,7 @@ import Button from "../Button";
 import { signIn } from "next-auth/react";
 
 const RegisterModal = () => {
+    const loginModal = useLoginModal();
     const registerModal = useRegisterModal();
     const [isLoading, setIsLoading] = useState(false);
 
@@ -64,7 +66,7 @@ const RegisterModal = () => {
                         Already Have an Account
                     </div>
                     <div
-                        onClick={registerModal.onClose}
+                        onClick={toggle}
                         className="
                             text-neutral-500
                             cursor-pointer
@@ -92,6 +94,11 @@ const RegisterModal = () => {
             setIsLoading(false);
         })
     }
+
+    const toggle = useCallback(() => {
+        loginModal.onClose();
+        registerModal.onOpen();
+    }, [loginModal, registerModal]);
 
     const bodyContent = (
         <div className="flex flex-col gap-4">
