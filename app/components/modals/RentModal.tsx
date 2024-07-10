@@ -6,6 +6,8 @@ import Modal from "./Modal";
 import { useMemo, useState } from "react";
 import Heading from "../Heading";
 import { categories } from "../navbar/Categories";
+import CategoryInput from "../inputs/CategoryInput";
+import { FieldValues, useForm } from "react-hook-form";
 
 enum STEPS {
     CATEGORY = 0,
@@ -20,6 +22,39 @@ const RentModal = () => {
     const rentModal = useRentModal();
 
     const [step, setstep] = useState(STEPS.CATEGORY);
+
+    const {
+        register,
+        handleSubmit,
+        setValue,
+        watch,
+        formState: {
+            errors
+        },
+        reset
+    } = useForm<FieldValues>({
+        defaultValues: {
+            category: '',
+            location: '',
+            guestCount: 1,
+            roomcount: 1,
+            bathroomCount: 1,
+            imageSrc: '',
+            price: 1,
+            title: '',
+            description: ''
+        }
+    });
+
+    const category = watch('category');
+
+    const setCustomValue = (id: string, value: any) => {
+        setValue(id, value, {
+            shouldValidate: true,
+            shouldDirty: true,
+            shouldTouch: true
+        })
+    }
 
     const onBack = () => {
         setstep((value) => value - 1);
@@ -48,7 +83,7 @@ const RentModal = () => {
     let bodyContent = (
         <div className="flex flex-col gap-8">
             <Heading
-                title="Which of these describes your palce of visit?"
+                title="Which of these describes your place of visit?"
                 subtitle="Pick a Category"
             />
             <div
@@ -63,7 +98,12 @@ const RentModal = () => {
             >
                 {categories.map((item) => (
                     <div key={item.label} className="col-span-1">
-                        {item.label}
+                        <CategoryInput
+                            onClick={(category) => setCustomValue('category', category)}
+                            selected={category === item.label}
+                            label={item.label}
+                            icon={item.icon}
+                        />
                     </div>
                 ))}
             </div>
