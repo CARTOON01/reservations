@@ -25,13 +25,13 @@ interface ListingClientProps {
     listing: safeListing & {
         user: SafeUser;
     };
-    curentUser: SafeUser | null;
+    currentUser: SafeUser | null;
 }
 
 const ListingClient: React.FC<ListingClientProps> = ({
     listing,
     reservations = [],
-    curentUser
+    currentUser
 }) => {
     const loginModal = useLoginModal();
     const router = useRouter();
@@ -56,7 +56,7 @@ const ListingClient: React.FC<ListingClientProps> = ({
     const [dateRange, setDateRange] = useState<Range>(initialDateRange);
 
     const onCreateReservation = useCallback(() => {
-        if (!curentUser) {
+        if (!currentUser) {
             return loginModal.onOpen();
         }
 
@@ -79,7 +79,7 @@ const ListingClient: React.FC<ListingClientProps> = ({
         .finally(() => {
             setIsLoading(false);
         });
-    }, [loginModal, curentUser, totalPrice, dateRange, listing, router]);
+    }, [loginModal, currentUser, totalPrice, dateRange, listing, router]);
 
     useEffect(() => {
         if (dateRange.startDate && dateRange.endDate) {
@@ -110,7 +110,7 @@ const ListingClient: React.FC<ListingClientProps> = ({
                         imageSrc={listing.imageSrc}
                         locationValue={listing.locationValue}
                         id={listing.id}
-                        curentUser={curentUser}
+                        curentUser={currentUser}
                     />
                     <div className="
                         grid
