@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useEffect, useState } from "react";
+import { ReactNode, useCallback, useEffect, useState } from "react";
 import { IoMdClose } from "react-icons/io";
 import Button from "../Button";
 
@@ -9,7 +9,7 @@ interface ModalProps {
     onClose: () => void;
     onSubmit: () => void;
     title?: string;
-    body?: string;
+    body?: ReactNode;
     footer?: string;
     actionLabel: string;
     disabled?: boolean;
